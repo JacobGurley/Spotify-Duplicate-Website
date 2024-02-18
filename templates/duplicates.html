@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Duplicate Tracks Found</title>
+</head>
+<body>
+    <h1>Duplicate Tracks ({{ duplicates|length }})</h1>
+    {% if duplicates %}
+        <ul>
+        {% for duplicate in duplicates %}
+            <li>{{ duplicate }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No duplicate tracks found.</p>
+    {% endif %}
+    <h2>Potential Duplicate Songs Based On Song Duration ({{ potential_duplicates|length }})</h2>
+    {% if potential_duplicates %}
+        <ul>
+        {% for duplicate in potential_duplicates %}
+            <li>{{ duplicate }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No potential duplicates found based on duration.</p>
+    {% endif %}
+    
+    <h3>Tracks with Missing Information ({{ missing_info_tracks|length }})</h3>
+    {% if missing_info_tracks %}
+        <ul>
+        {% for track in missing_info_tracks %}
+            <li><a href="https://open.spotify.com/track/{{ track }}">{{ track }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No tracks with missing information.</p>
+    {% endif %}
+</body>
+</html>
