@@ -3,13 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Duplicate Tracks Found</title>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <h1>Duplicate Tracks ({{ duplicates|length }})</h1>
     {% if duplicates %}
         <ul>
         {% for duplicate in duplicates %}
-            <li>{{ duplicate }}</li>
+            <li>
+                {{ duplicate.name }}
+                <button data-url="{{ url_for('remove_duplicate', playlist_id=playlist_id, track_id=duplicate.id) }}" class="remove-btn">Remove</button>
+            </li>
         {% endfor %}
         </ul>
     {% else %}
@@ -19,7 +23,10 @@
     {% if potential_duplicates %}
         <ul>
         {% for duplicate in potential_duplicates %}
-            <li>{{ duplicate }}</li>
+            <li>
+                {{ duplicate.name }} (Duration difference: {{ duplicate.duration_difference }}ms)
+                <button data-url="{{ url_for('remove_duplicate', playlist_id=playlist_id, track_id=duplicate.id) }}" class="remove-btn">Remove</button>
+            </li>
         {% endfor %}
         </ul>
     {% else %}
@@ -30,11 +37,40 @@
     {% if missing_info_tracks %}
         <ul>
         {% for track in missing_info_tracks %}
-            <li><a href="https://open.spotify.com/track/{{ track }}">{{ track }}</a></li>
+            <li><a href="https://open.spotify.com/track/{{ track.id }}">{{ track.id }}</a></li>
         {% endfor %}
         </ul>
     {% else %}
         <p>No tracks with missing information.</p>
     {% endif %}
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var removeButtons = document.querySelectorAll('.remove-btn');
+        removeButtons.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var url = this.getAttribute('data-url');
+                confirmRemoval(url);
+            });
+        });
+    });
+
+    function confirmRemoval(url) {
+        console.log(url);
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = url;
+            }
+        });
+    }
+</script>
 </html>
+
