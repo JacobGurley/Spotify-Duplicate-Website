@@ -171,10 +171,19 @@ def remove_duplicate(playlist_id, track_id):
         flash("You do not have permission to modify this playlist.", "error")
         return redirect(url_for('duplicates', playlist_id=playlist_id))
     try:
-        # Remove the specified track from the playlist
-        sp.playlist_remove_all_occurrences_of_items(playlist_id, [track_id])
-        # Redirect to duplicates page with a success message
-        flash("Track removed successfully.", "success")
+        # Fetch all tracks from the playlist to find the position of the duplicate track
+        tracks = fetch_all_tracks_from_playlist(sp, playlist_id)
+        occurrences = []
+        for i, item in enumerate(tracks):
+            if item['track']['id'] == track_id:
+                occurrences.append({'uri': item['track']['uri'], 'positions': [i]})
+
+        # If there are multiple occurrences, remove only the first one
+        if occurrences:
+            sp.playlist_remove_specific_occurrences_of_items(playlist_id, occurrences[:1])
+            flash("Track removed successfully.", "success")
+        else:
+            flash("Track not found.", "info")
     except Exception as e:
         # Handle errors (e.g., API failure, permission issues)
         flash("Failed to remove track. Error: {}".format(e), "error")
