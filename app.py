@@ -146,7 +146,14 @@ def find_duplicates(tracks):
 
             # If duration differs by more than 1 second, consider it a potential duplicate
             if duration_difference > 1000:  # More than 1 second
-                potential_duplicates.append({'name': simple_identifier, 'id': track_id, 'duration_difference': duration_difference})
+                potential_duplicates.append({
+                    'name': simple_identifier, 
+                    'track1_id': seen_tracks[simple_identifier]['id'], 
+                    'track2_id': track_id,
+                    'track1_duration_ms': seen_tracks[simple_identifier]['duration'],
+                    'track2_duration_ms': track_duration_ms,
+                    'duration_difference': duration_difference
+                })
             else:
                 # If duration difference is less than or equal to 1 second, consider it a duplicate
                  duplicates.append({'name': simple_identifier, 'id': track_id})
