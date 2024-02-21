@@ -6,7 +6,7 @@ body, html {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #121212; /* Darker background for a more professional look */
+    background-color: #121212;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: #ffffff;
 }
@@ -15,15 +15,15 @@ body, html {
     text-align: center;
     padding: 40px;
     border-radius: 20px;
-    background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
-    backdrop-filter: blur(10px); /* Soft blur effect on background */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
     box-shadow: 0 8px 32px rgba(0,0,0,0.2);
     width: 90%;
     max-width: 450px;
 }
 
 .logo {
-    width: 120px; /* Slightly larger logo for better visibility */
+    width: 120px;
     margin-bottom: 30px;
 }
 
@@ -35,21 +35,21 @@ h1 {
 .instruction {
     margin-bottom: 30px;
     font-size: 18px;
-    color: #b3b3b3; /* Lighter text for instructions */
+    color: #b3b3b3;
 }
 
 .login-button {
-    background-color: #1DB954; /* Spotify brand color for the button */
+    background-color: #1DB954;
     color: white;
     padding: 15px 30px;
     text-decoration: none;
-    border-radius: 50px; /* More rounded corners for the button */
+    border-radius: 50px;
     font-weight: 600;
     letter-spacing: 1px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .login-button:hover, .login-button:focus {
-    transform: scale(1.05); /* Slight increase in size on hover/focus for feedback */
-    box-shadow: 0 4px 20px rgba(0,255,0,0.3); /* Glowing effect */
+    transform: scale(1.05); 
+    box-shadow: 0 4px 20px rgba(0,255,0,0.3);
 }
