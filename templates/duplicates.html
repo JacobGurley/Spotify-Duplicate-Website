@@ -24,9 +24,9 @@
         <ul>
         {% for duplicate in potential_duplicates %}
             <li>
-                {{ duplicate.name }} (Duration difference: {{ duplicate.duration_difference }}ms)
-                <div>Track 1 Duration: {{ duplicate.track1_duration_ms }}ms</div>
-                <div>Track 2 Duration: {{ duplicate.track2_duration_ms }}ms</div>
+                {{ duplicate.name }} (Duration difference: {{ duplicate.duration_difference }})
+                <div>Track 1 Duration: {{ duplicate.track1_duration }}</div>
+                <div>Track 2 Duration: {{ duplicate.track2_duration }}</div>
                 <button data-url="{{ url_for('remove_duplicate', playlist_id=playlist_id, track_id=duplicate.track1_id) }}" class="remove-btn">Delete Track 1</button>
                 <button data-url="{{ url_for('remove_duplicate', playlist_id=playlist_id, track_id=duplicate.track2_id) }}" class="remove-btn">Delete Track 2</button>
             </li>

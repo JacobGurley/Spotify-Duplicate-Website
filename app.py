@@ -120,6 +120,11 @@ def fetch_all_tracks_from_playlist(sp, playlist_id):
         tracks.extend(results['items'])
     return tracks
 
+def milliseconds_to_minutes_seconds(ms):
+    minutes = ms // 60000
+    seconds = ((ms % 60000) + 500) // 1000  # Round to nearest second
+    return f"{minutes}:{seconds:02d}"
+
 def find_duplicates(tracks):
     seen_tracks = {}
     duplicates = []
@@ -150,9 +155,9 @@ def find_duplicates(tracks):
                     'name': simple_identifier, 
                     'track1_id': seen_tracks[simple_identifier]['id'], 
                     'track2_id': track_id,
-                    'track1_duration_ms': seen_tracks[simple_identifier]['duration'],
-                    'track2_duration_ms': track_duration_ms,
-                    'duration_difference': duration_difference
+                    'track1_duration': milliseconds_to_minutes_seconds(seen_tracks[simple_identifier]['duration']),
+                    'track2_duration': milliseconds_to_minutes_seconds(track_duration_ms),
+                    'duration_difference': milliseconds_to_minutes_seconds(duration_difference)
                 })
             else:
                 # If duration difference is less than or equal to 1 second, consider it a duplicate
@@ -160,7 +165,6 @@ def find_duplicates(tracks):
         else:
             # If we haven't seen this track, add it to seen_tracks
             seen_tracks[simple_identifier] = {'id': track_id, 'duration': track_duration_ms}
-    print(f"Rendering duplicates with track_id: {track_id}")
     return duplicates, potential_duplicates, missing_info_tracks
 
 @app.route('/remove_duplicate/<playlist_id>/<track_id>')
