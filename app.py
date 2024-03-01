@@ -80,7 +80,9 @@ def callback():
         flash(f"Error obtaining access token: {str(e)}", "error")
         return redirect(url_for('index'))
 
-
+@app.route('/privacy')
+def privacy():
+    return render_template('privacypolicy.html')
 
 
 @app.route('/playlists')
