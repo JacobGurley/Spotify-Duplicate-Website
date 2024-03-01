@@ -91,7 +91,11 @@ def playlists():
         return render_template('index.html')
     
     playlists = sp.current_user_playlists()
+    for playlist in playlists['items']:
+        # Assuming the first image is the one you want to use
+        playlist['image_url'] = playlist['images'][0]['url'] if playlist['images'] else None
     return render_template('playlists.html', playlists=playlists['items'])
+
 
 
 @app.route('/duplicates/<playlist_id>')
@@ -134,13 +138,14 @@ def find_duplicates(tracks):
     for item in tracks:
         track = item['track']
         if not track or 'id' not in track or not track['name'] or not track['artists']:
-            missing_info_tracks.append({'id': track['id'] if track else 'Unknown ID'})
+            missing_info_tracks.append({'id': track['id'] if track else 'Unknown ID', 'image_url': None})
             continue
         
         track_id = track['id']
         track_name = track['name']
         artist_names = ', '.join([artist['name'] for artist in track['artists']])
         track_duration_ms = track['duration_ms']
+        image_url = track['album']['images'][0]['url'] if track['album']['images'] else None
         simple_identifier = f"{track_name} - {artist_names}"
 
         # Check if we have seen this track (excluding duration)
@@ -157,14 +162,15 @@ def find_duplicates(tracks):
                     'track2_id': track_id,
                     'track1_duration': milliseconds_to_minutes_seconds(seen_tracks[simple_identifier]['duration']),
                     'track2_duration': milliseconds_to_minutes_seconds(track_duration_ms),
-                    'duration_difference': milliseconds_to_minutes_seconds(duration_difference)
+                    'duration_difference': milliseconds_to_minutes_seconds(duration_difference),
+                    'image_url': image_url
                 })
             else:
                 # If duration difference is less than or equal to 1 second, consider it a duplicate
-                 duplicates.append({'name': simple_identifier, 'id': track_id})
+                 duplicates.append({'name': simple_identifier, 'id': track_id, 'image_url': image_url})
         else:
             # If we haven't seen this track, add it to seen_tracks
-            seen_tracks[simple_identifier] = {'id': track_id, 'duration': track_duration_ms}
+            seen_tracks[simple_identifier] = {'id': track_id, 'duration': track_duration_ms, 'image_url': image_url}
     return duplicates, potential_duplicates, missing_info_tracks
 
 @app.route('/remove_duplicate/<playlist_id>/<track_id>')

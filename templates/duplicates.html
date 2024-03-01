@@ -3,49 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <title>Duplicate Tracks Found</title>
+    <link rel="stylesheet" href="/static/styles/duplicates.css">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-    <h1>Duplicate Tracks ({{ duplicates|length }})</h1>
-    {% if duplicates %}
-        <ul>
-        {% for duplicate in duplicates %}
-            <li>
-                {{ duplicate.name }}
-                <button data-url="{{ url_for('remove_duplicate', playlist_id=playlist_id, track_id=duplicate.id) }}" class="remove-btn">Remove</button>
-            </li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>No duplicate tracks found.</p>
-    {% endif %}
-    <h2>Potential Duplicate Songs Based On Song Duration ({{ potential_duplicates|length }})</h2>
-    {% if potential_duplicates %}
-        <ul>
-        {% for duplicate in potential_duplicates %}
-            <li>
-                {{ duplicate.name }} (Duration difference: {{ duplicate.duration_difference }})
-                <div>Track 1 Duration: {{ duplicate.track1_duration }}</div>
-                <div>Track 2 Duration: {{ duplicate.track2_duration }}</div>
-                <button data-url="{{ url_for('remove_duplicate', playlist_id=playlist_id, track_id=duplicate.track1_id) }}" class="remove-btn">Delete Track 1</button>
-                <button data-url="{{ url_for('remove_duplicate', playlist_id=playlist_id, track_id=duplicate.track2_id) }}" class="remove-btn">Delete Track 2</button>
-            </li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>No potential duplicates found based on duration.</p>
-    {% endif %}
-    
-    <h3>Tracks with Missing Information ({{ missing_info_tracks|length }})</h3>
-    {% if missing_info_tracks %}
-        <ul>
-        {% for track in missing_info_tracks %}
-            <li><a href="https://open.spotify.com/track/{{ track.id }}">{{ track.id }}</a></li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>No tracks with missing information.</p>
-    {% endif %}
+    <div class="container">
+        <h1>Duplicate Tracks ({{ duplicates|length }})</h1>
+        <div class="tracks">
+            {% if duplicates %}
+                {% for duplicate in duplicates %}
+                    <div class="track">
+                        <img src="{{ duplicate.image_url if duplicate.image_url else '/static/assets/placeholder.png' }}" alt="{{ duplicate.name }}" class="track-cover">
+                        <div class="track-info">
+                            <span>{{ duplicate.name }}</span>
+                            <button data-url="{{ url_for('remove_duplicate', playlist_id=playlist_id, track_id=duplicate.id) }}" class="remove-btn">Remove</button>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No duplicate tracks found.</p>
+            {% endif %}
+        </div>
+
+        <h2>Potential Duplicate Songs Based On Song Duration ({{ potential_duplicates|length }})</h2>
+        <div class="tracks potential-duplicates">
+            {% if potential_duplicates %}
+                {% for duplicate in potential_duplicates %}
+                    <div class="track">
+                        <img src="{{ duplicate.image_url if duplicate.image_url else '/static/assets/placeholder.png' }}" alt="Potential Duplicate Cover" class="track-cover">
+                        <div class="track-info">
+                            <span>{{ duplicate.name }}</span>
+                            <div>Track 1 Duration: {{ duplicate.track1_duration }}</div>
+                            <div>Track 2 Duration: {{ duplicate.track2_duration }}</div>
+                            <button data-url="{{ url_for('remove_duplicate', playlist_id=playlist_id, track_id=duplicate.track1_id) }}" class="remove-btn">Delete Track 1</button>
+                            <button data-url="{{ url_for('remove_duplicate', playlist_id=playlist_id, track_id=duplicate.track2_id) }}" class="remove-btn">Delete Track 2</button>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No potential duplicates found based on duration.</p>
+            {% endif %}
+        </div>
+
+        <h3>Tracks with Missing Information ({{ missing_info_tracks|length }})</h3>
+        <div class="tracks missing-info">
+            {% if missing_info_tracks %}
+                {% for track in missing_info_tracks %}
+                    <div class="track">
+                        <img src="/static/assets/placeholder.png" alt="Missing Info Cover" class="track-cover">
+                        <span><a href="https://open.spotify.com/track/{{ track.id }}">{{ track.id }}</a></span>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No tracks with missing information.</p>
+            {% endif %}
+        </div>
+    </div>
 </body>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -59,7 +72,6 @@
     });
 
     function confirmRemoval(url) {
-        console.log(url);
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
