@@ -66,12 +66,12 @@
         removeButtons.forEach(function(btn) {
             btn.addEventListener('click', function() {
                 var url = this.getAttribute('data-url');
-                confirmRemoval(url);
+                confirmRemoval(url, this);
             });
         });
     });
-
-    function confirmRemoval(url) {
+    
+    function confirmRemoval(url, buttonElement) {
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -82,9 +82,33 @@
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = url;
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === "success") {
+                            Swal.fire('Deleted!', data.message, 'success').then(() => {
+                                // Programmatically remove the track element from the page
+                                const trackElement = buttonElement.closest('.track');
+                                if (trackElement) {
+                                    trackElement.remove();
+                                }
+                                window.location.reload();
+                                // Check if there are no more duplicates and update UI accordingly
+                                if (!document.querySelector('.tracks .track')) {
+                                    // If no more tracks, display a message or hide the section
+                                    document.querySelector('.tracks').innerHTML = '<p>No duplicate tracks found.</p>';
+                                }
+                            });
+                        } else {
+                            throw new Error(data.message);
+                        }
+                    })
+                    .catch(error => {
+                        Swal.fire('Error!', error.message, 'error');
+                    });
             }
         });
     }
 </script>
+    
 </html>

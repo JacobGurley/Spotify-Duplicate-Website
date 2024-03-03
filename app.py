@@ -1,5 +1,5 @@
 # Import necessary libraries
-from flask import Flask, Response, request, redirect, session, url_for, render_template, flash
+from flask import Flask, Response, request, redirect, session, url_for, render_template, flash, jsonify
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import os
@@ -83,6 +83,10 @@ def callback():
 @app.route('/privacy')
 def privacy():
     return render_template('privacypolicy.html')
+
+@app.route('/terms')
+def terms():
+    return render_template('termsofservice.html')
 
 
 @app.route('/playlists')
@@ -187,8 +191,8 @@ def remove_duplicate(playlist_id, track_id):
 
     # Check if current user is the owner of the playlist
     if playlist['owner']['id'] != user['id']:
-        flash("You do not have permission to modify this playlist.", "error")
-        return redirect(url_for('duplicates', playlist_id=playlist_id))
+        response = {"status": "error", "message": "You do not have permission to modify this playlist."}
+        return jsonify(response), 403
     try:
         # Fetch all tracks from the playlist to find the position of the duplicate track
         tracks = fetch_all_tracks_from_playlist(sp, playlist_id)
@@ -200,19 +204,14 @@ def remove_duplicate(playlist_id, track_id):
         # If there are multiple occurrences, remove only the first one
         if occurrences:
             sp.playlist_remove_specific_occurrences_of_items(playlist_id, occurrences[:1])
-            flash("Track removed successfully.", "success")
+            response = {"status": "success", "message": "Duplicate song removed successfully."}
+            return jsonify(response)  # Success response
         else:
-            flash("Track not found.", "info")
+            response = {"status": "error", "message": "Track not found."}
+            return jsonify(response), 404
     except Exception as e:
-        # Handle errors (e.g., API failure, permission issues)
-        flash("Failed to remove track. Error: {}".format(e), "error")
-
-    # Redirect back to the duplicates page
-    return redirect(url_for('duplicates', playlist_id=playlist_id))
-
-
-
-
+        response = {"status": "error", "message": f"Failed to remove track. Error: {str(e)}"}
+        return jsonify(response), 500
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
