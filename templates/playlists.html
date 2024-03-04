@@ -7,11 +7,16 @@
     <link rel="stylesheet" href="/static/styles/playlists.css">
 </head>
 <body>
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center; color: white; font-size: 24px;">
+        Loading...
+    </div>
+
     <div class="container">
         <h1 class="title">Select a Playlist</h1>
         <div class="playlists">
             {% for playlist in playlists %}
-                <a href="{{ url_for('duplicates', playlist_id=playlist['id']) }}" class="playlist-item {% if not playlist['image_url'] %}no-cover{% endif %}">
+                <a href="{{ url_for('duplicates', playlist_id=playlist['id']) }}" class="playlist-item {% if not playlist['image_url'] %}no-cover{% endif %}" onclick="showLoadingOverlay()">
                     {% if playlist['image_url'] %}
                         <img src="{{ playlist['image_url'] }}" alt="{{ playlist['name'] }}" class="playlist-cover">
                     {% endif %}
@@ -20,5 +25,19 @@
             {% endfor %}
         </div>
     </div>
+
+    <script>
+    function showLoadingOverlay() {
+        document.getElementById('loadingOverlay').style.display = 'flex';
+    }
+
+    // Hide the loading overlay when the page is fully loaded or when coming back to the page
+    window.addEventListener('pageshow', function(event) {
+        // Checks if the page is loaded from the cache
+        if (event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+            document.getElementById('loadingOverlay').style.display = 'none';
+        }
+    });
+    </script>
 </body>
 </html>
