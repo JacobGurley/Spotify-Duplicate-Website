@@ -24,7 +24,6 @@
                 <p>No duplicate tracks found.</p>
             {% endif %}
         </div>
-
         <h2>Potential Duplicate Songs Based On Song Duration ({{ potential_duplicates|length }})</h2>
         <div class="tracks potential-duplicates">
             {% if potential_duplicates %}
@@ -44,7 +43,6 @@
                 <p>No potential duplicates found based on duration.</p>
             {% endif %}
         </div>
-
         <h3>Tracks with Missing Information ({{ missing_info_tracks|length }})</h3>
         <div class="tracks missing-info">
             {% if missing_info_tracks %}
@@ -69,8 +67,7 @@
                 confirmRemoval(url, this);
             });
         });
-    });
-    
+    }); 
     function confirmRemoval(url, buttonElement) {
         Swal.fire({
             title: 'Are you sure?',
@@ -109,6 +106,5 @@
             }
         });
     }
-</script>
-    
+</script> 
 </html>
