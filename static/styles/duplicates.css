@@ -99,3 +99,26 @@ p {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
+@media (max-width: 768px) {
+    h1, h2, h3 {
+        font-size: 28px;
+    }
+
+    .tracks {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        padding: 20px;
+    }
+
+    .track {
+        padding: 20px;
+    }
+
+    .track-info span, .track-info div {
+        font-size: 18px;
+    }
+
+    .remove-btn {
+        padding: 15px 30px;
+        font-size: 16px;
+    }
+}

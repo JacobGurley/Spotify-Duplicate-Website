@@ -12,7 +12,7 @@ app.config['SESSION_COOKIE_NAME'] = 'spotify-login-session'
 # Spotify OAuth settings
 SPOTIPY_CLIENT_ID = os.environ.get('SPOTIPY_CLIENT_ID', '')
 SPOTIPY_CLIENT_SECRET = os.environ.get('SPOTIPY_CLIENT_SECRET', '')
-SPOTIPY_REDIRECT_URI = 'http://localhost:5000/callback'
+SPOTIPY_REDIRECT_URI = 'http://192.168.0.25:5000/callback'
 SCOPE = 'playlist-read-private playlist-modify-private playlist-modify-public'
 
 # Create Spotify OAuth object
@@ -214,4 +214,4 @@ def remove_duplicate(playlist_id, track_id):
         return jsonify(response), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, host='0.0.0.0', port=5000)

@@ -77,3 +77,25 @@ body, html {
 .playlist-item:hover .playlist-cover {
     transform: scale(1.1);
 }
+@media (max-width: 768px) {
+    .title {
+        font-size: 28px;
+    }
+
+    .playlists {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        padding: 20px;
+    }
+
+    .playlist-item {
+        padding: 20px;
+    }
+
+    .playlist-cover {
+        max-height: 150px;
+    }
+
+    .playlist-item span {
+        font-size: 18px;
+    }
+}

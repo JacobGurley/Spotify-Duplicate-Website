@@ -108,3 +108,28 @@ footer a:hover {
     color: #ffffff;
     text-decoration: underline;
 }
+@media (max-width: 768px) {
+    .login-container {
+        padding: 40px 20px;
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .logo {
+        width: 120px;
+        height: 120px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    .instruction, footer a {
+        font-size: 18px;
+    }
+
+    .login-button {
+        padding: 15px 40px;
+    }
+}
+
