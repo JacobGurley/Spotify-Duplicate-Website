@@ -26,20 +26,20 @@ Watch the program in action [here](https://youtu.be/KaYC0QnaxY8).
 To run this project locally, follow these steps:
 
 1. **Clone the Repository**
-- git clone: https://github.com/JacobGurley/Spotify-Duplicate-Website
+  - git clone: https://github.com/JacobGurley/Spotify-Duplicate-Website
 2. **Install Dependencies**
-- pip install -r requirements.txt
+  - pip install -r requirements.txt
 3. **Spotify Developer Account**
-- Set up a Spotify Developer account and create an app to obtain the `Client ID` and `Client Secret`.
-- Add `http://127.0.0.1:5000/callback` to the list of Redirect URIs in your Spotify app settings.
+  - Set up a Spotify Developer account and create an app to obtain the `Client ID` and `Client Secret`.
+  - Add `http://127.0.0.1:5000/callback` to the list of Redirect URIs in your Spotify app settings.
 4. **Environment Variables**
 Set up the following environment variables:
-- SPOTIPY_CLIENT_ID='your_spotify_client_id'
-- SPOTIPY_CLIENT_SECRET='your_spotify_client_secret'
-- SPOTIPY_REDIRECT_URI='http://127.0.0.1:5000/callback'
+  - SPOTIPY_CLIENT_ID='your_spotify_client_id'
+  - SPOTIPY_CLIENT_SECRET='your_spotify_client_secret'
+  - SPOTIPY_REDIRECT_URI='http://127.0.0.1:5000/callback'
 5. **Run the Application**
-- run command: python app.py
-- Your app should now be running on [http://127.0.0.1:5000/](http://127.0.0.1:5000/).
+  - run command: python app.py
+  - Your app should now be running on [http://127.0.0.1:5000/](http://127.0.0.1:5000/).
 
 ## Limitations
 Currently, the application is in development mode on Spotify, which means it's not publicly available for all users without developer credentials.
