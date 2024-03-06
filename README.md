@@ -5,3 +5,12 @@ Spotify Duplicate Song Remover is a web application designed to find and remove 
 
 ## Demo
 Watch the program in action [here](https://youtu.be/KaYC0QnaxY8).
+
+## Features
+- **User Authentication:** Secure login through Spotify accounts.
+- **Playlist Selection:** Users can select any of their playlists for analysis.
+- **Duplicate Detection:** Identifies exact duplicate songs within a playlist.
+- **Potential Duplicate Detection:** Flags songs that might be duplicates based on their duration.
+- **Missing Information Identification:** Points out songs with missing metadata.
+- **Deletion:** Deletes duplicate songs from the chosen playlist.
+- **User Check:** If the user tries to delete a song from another user's playlist, they will recieve an error message.
