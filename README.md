@@ -14,3 +14,10 @@ Watch the program in action [here](https://youtu.be/KaYC0QnaxY8).
 - **Missing Information Identification:** Points out songs with missing metadata.
 - **Deletion:** Deletes duplicate songs from the chosen playlist.
 - **User Check:** If the user tries to delete a song from another user's playlist, they will recieve an error message.
+
+## Technologies Used
+- **Spotipy:** A lightweight Python library for the Spotify Web API.
+- **Flask:** A micro web framework written in Python for building web applications.
+- **HTML/CSS:** For structuring and styling the web interface.
+- **JavaScript:** To enhance the interactivity of the web application.
+- **Heroku:** A cloud platform for hosting the web application.
